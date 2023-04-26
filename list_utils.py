@@ -22,8 +22,8 @@ def find_n(list, needle, n):
     Devuelve True si en list hay n o más ocurrencias de needle
     False is hay menos o si n < 0
     """
-    # si n > 0...
-    if n > 0:
+    # si n >= 0...
+    if n >= 0:
         # Inicializamos el índice y el contador
         index = 0
         count = 0
