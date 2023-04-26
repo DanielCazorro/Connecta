@@ -19,16 +19,21 @@ class LinearBoard():
         """
         Juega en la primera posición disponible
         """
-        # buscamos la priemra posición libre (None)
-        i = self._colum.index(None)
-        # lo sustituimos por un char
-        self._colum[i] = char
+        # siempre y cuando no esté lleno...
+        if not self.is_full():
+            # buscamos la priemra posición libre (None)
+            i = self._colum.index(None)
+            # lo sustituimos por un char
+            self._colum[i] = char
 
     def is_full(self):
-        pass
+        return self._colum[-1] != None
 
     def is_victory(self, char):
         return False
 
     def is_tie(self, char1, char2):
-        return False
+        """
+        no hay victoria ni de char1 ni de char2
+        """
+        return (self.is_victory('x') == False) and (self.is_victory('o') == False)
