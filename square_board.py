@@ -7,6 +7,16 @@ class SquareBoard():
     Representa un tablero cuadrado
     """
 
+    @classmethod
+    def fromList(cls, list_of_lists):
+        """
+        Transforma una lista de listas en una list de LinearBoard
+        """
+        board = cls()
+        board._columns = list(map(
+            lambda element: LinearBoard.fromList(element), list_of_lists))
+        return board
+
     def __init__(self):
         self._columns = [LinearBoard() for i in range(BOARD_LENGTH)]
 
@@ -37,3 +47,8 @@ class SquareBoard():
 
     def _any_sinking_victory(self, char):
         return False
+
+    # Dunders
+
+    def __repr__(self):
+        return f'{self.__class__}:{self._columns}'
