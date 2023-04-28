@@ -19,6 +19,9 @@ class ColumnRecommendation():
         else:
             return (self.index, self.classification) == (other.index, other.classification)
 
+    def __hash__(self) -> int:
+        return hash((self.index, self.classification))
+
 
 class BaseOracle():
 
