@@ -122,3 +122,14 @@ def displace_matrix(m, filler=None):
 
     # Devolvemos m
     return d
+
+
+def reverse_list(l):
+    return list(reversed(l))
+
+
+def reverse_matrix(matrix):
+    rm = []
+    for col in matrix:
+        rm.append(reverse_list(col))
+    return rm
