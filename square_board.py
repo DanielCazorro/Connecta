@@ -21,6 +21,12 @@ class SquareBoard():
     def __init__(self):
         self._colums = [LinearBoard() for _ in range(BOARD_LENGTH)]
 
+    def __repr__(self):
+        return f'{self.__class__}: {self._colums}'
+
+    def __len__(self):
+        return len(self._colums)
+
     def is_full(self):
         """
         True si todos los LinearBoards están llenos
