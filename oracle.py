@@ -11,18 +11,26 @@ class ColumnRecommendation():
         self.index = index
         self.classification = classification
 
+    def __eq__(self, other):
+        #  si son de clases distintas, pues distintos
+        if not isinstance(other, self.__class__):
+            return False
+        #  si son de la misma clase, comparo las propiedades de cada uno
+        else:
+            return (self.index, self.classification) == (other.index, other.classification)
+
 
 class BaseOracle():
 
     def get_recommendation(self, board, player):
         """
-        Returns a list of ColumnRecomendations
+        Returns a list of ColumnRecommendations
         """
         recommendations = []
         for i in range(len(board)):
             recommendations.append(
                 self._get_column_recommendation(board, i, player))
-            return recommendations
+        return recommendations
 
     def _get_column_recommendation(self, board, index, player):
         """

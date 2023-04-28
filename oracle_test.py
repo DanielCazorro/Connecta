@@ -16,3 +16,15 @@ def test_base_oracle():
 
     assert len(rappel.get_recommendation(board, None)) == len(expected)
     assert rappel.get_recommendation(board, None) == expected
+
+
+def test_equality():
+    cr = ColumnRecommendation(2, ColumnClassification.MAYBE)
+
+    assert cr == cr  # son idénticos
+    assert cr == ColumnRecommendation(
+        2, ColumnClassification.MAYBE)  # equivalentes
+
+    # no equivalentes (puesto qu eno tienen la misma clasificación)
+    assert cr != ColumnRecommendation(2, ColumnClassification.FULL)
+    assert cr != ColumnRecommendation(3, ColumnClassification.FULL)

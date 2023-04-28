@@ -14,25 +14,25 @@ class SquareBoard():
         Transforma una lista de listas en una list de LinearBoard
         """
         board = cls()
-        board._colums = list(
+        board._columns = list(
             map(lambda element: LinearBoard.fromList(element), list_of_lists))
         return board
 
     def __init__(self):
-        self._colums = [LinearBoard() for _ in range(BOARD_LENGTH)]
+        self._columns = [LinearBoard() for _ in range(BOARD_LENGTH)]
 
     def __repr__(self):
-        return f'{self.__class__}: {self._colums}'
+        return f'{self.__class__}: {self._columns}'
 
     def __len__(self):
-        return len(self._colums)
+        return len(self._columns)
 
     def is_full(self):
         """
         True si todos los LinearBoards están llenos
         """
         result = True
-        for lb in self._colums:
+        for lb in self._columns:
             result = result and lb.is_full()
         return result
 
@@ -41,7 +41,7 @@ class SquareBoard():
         Devuelve una representación en fromato de matriz, es decir,
         lista de listas.
         """
-        return list(map(lambda x: x._colum, self._colums))
+        return list(map(lambda x: x._colum, self._columns))
 
     # Detectra victorias
     def is_victory(self, char):
@@ -49,7 +49,7 @@ class SquareBoard():
 
     def _any_vertical_victory(self, char):
         result = False
-        for lb in self._colums:
+        for lb in self._columns:
             result = result or lb.is_victory(char)
         return result
 
@@ -84,4 +84,4 @@ class SquareBoard():
 
     # Dunders
     def __repr__(self):
-        return f'{self.__class__}:{self._colums}'
+        return f'{self.__class__}:{self._columns}'
