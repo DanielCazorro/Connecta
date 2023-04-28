@@ -110,3 +110,15 @@ def displace(l, distance, filler=None):
         res = l + filling
         res = res[abs(distance):]
         return res
+
+
+def displace_matrix(m, filler=None):
+    # Creamos una matriz vacía
+    d = []
+    # Por cada columna de la matriz original la desplazamos su ínidce -1
+    for i in range(len(m)):
+        # Añadimos la columna desplazada a m
+        d.append(displace(m[i], i - 1, filter))
+
+    # Devolvemos m
+    return d
