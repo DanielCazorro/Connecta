@@ -4,6 +4,7 @@ from square_board import *
 
 
 def test_empty_board():
+
     board = SquareBoard()
 
     assert board.is_full() == False
