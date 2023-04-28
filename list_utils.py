@@ -83,4 +83,15 @@ def nth_elements(list_of_lists, n):
 
 
 def transpose(matrix):
-    pass
+    """
+    Recibe una matriz y devuelve su respuesta
+    """
+    # Creo una matriz vacía llamada trasnp
+    transp = []
+    # Recorremos todas las columnas de la matriz origianl
+    for n in range(len(matrix[0])):
+        # Extraigo los valores enésimos y se los encasqueto a transp
+        transp.append(nth_elements(matrix, n))
+
+    # devuelvo trnasp
+    return transp
