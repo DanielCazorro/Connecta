@@ -1,4 +1,5 @@
 from linear_board import LinearBoard
+from list_utils import transpose
 from settings import BOARD_LENGTH
 
 
@@ -29,6 +30,13 @@ class SquareBoard():
             result = result and lb.is_full()
         return result
 
+    def as_matrix(self):
+        """
+        Devuelve una representación en fromato de matriz, es decir,
+        lista de listas.
+        """
+        return list(map(lambda x: x._column, self._columns))
+
     # Detecta victorias
     def is_victory(self, char):
         return self._any_vertical_victory(char) or self._any_horizontal_victory(char) or self._any_rising_victory(char) or self._any_sinking_victory(char)
@@ -40,7 +48,13 @@ class SquareBoard():
         return result
 
     def _any_horizontal_victory(self, char):
-        return False
+        # Transponemos _columns
+        transp = transpose(self.as_matrix())
+        # Creamos un tablero temporal con esa matriz transpuesta
+        tmp = SquareBoard.fromList(transp)
+
+        # comprobamos si tiene una victoria temporal
+        return tmp._any_vertical_victory(char)
 
     def _any_rising_victory(self, char):
         return False
