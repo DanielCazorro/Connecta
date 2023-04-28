@@ -95,3 +95,18 @@ def transpose(matrix):
 
     # devuelvo trnasp
     return transp
+
+
+def displace(l, distance, filler=None):
+    if distance == 0:
+        return l
+    elif distance > 0:
+        filling = [filler] * distance
+        res = filling + l
+        res = res[:-distance]
+        return res
+    else:
+        filling = [filler] * abs(distance)
+        res = l + filling
+        res = res[abs(distance):]
+        return res
