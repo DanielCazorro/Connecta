@@ -43,7 +43,11 @@ class SquareBoard():
         """
         return list(map(lambda x: x._colum, self._columns))
 
-    # Detectra victorias
+    # Juega una ficha en una columna
+    def add(self, char, column):
+        self._columns[column].add(char)
+
+ # Detectra victorias
     def is_victory(self, char):
         return self._any_vertical_victory(char) or self._any_horizontal_victory(char) or self._any_rising_victory(char) or self._any_sinking_victory(char)
 
