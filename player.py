@@ -12,6 +12,16 @@ class Player():
         self._oracle = oracle
         self.opponent = opponent
 
+    @property
+    def opponent(self):
+        return self._opponent
+
+    @opponent.setter
+    def opponent(self, other):
+        if other != None:
+            self._opponent = other
+            other._opponent = self
+
     def play(self, board):
         """
         Elige la mejor columna de aquellas que recomienda el oráculo
@@ -49,7 +59,7 @@ class Player():
 
 class HumanPlayer(Player):
 
-    def __init__(self, name, char, opponent=None):
+    def __init__(self, name, char=None, opponent=None):
         super().__init__(name, char)
 
     def _ask_oracle(self, board):

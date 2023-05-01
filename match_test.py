@@ -1,9 +1,23 @@
 import pytest
 from match import Match
-from player import Player
+from player import Player, HumanPlayer
 
-xavier = Player('Prof. Xavier')
-otto = Player('Dr Octopus')
+xavier = None
+otto = None
+
+
+def setup():
+    global xavier
+    xavier = HumanPlayer('Prof. Xavier')
+    global otto
+    otto = Player('Dr Octopus')
+
+
+def teardown():
+    global xavier
+    xavier = None
+    global otto
+    otto = None
 
 
 def test_different_players_have_different_chars():
@@ -26,8 +40,8 @@ def test_next_player_is_round_robbin():
 
 def test_players_are_opponents():
     t = Match(otto, xavier)
-    x = t.next_player('x')
-    o = t.next_player('o')
+    p1 = t.next_player
+    p2 = t.next_player
 
-    assert o.opponent == x
-    assert x.opponent == o
+    assert p2.opponent == p1
+    assert p1.opponent == p2
