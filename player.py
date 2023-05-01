@@ -30,3 +30,21 @@ class Player():
 
         # pillamos la primera de las válidas
         return valid[0]
+
+# funciones de validación de índice de columna
+
+
+def _is_non_full_column(board, num):
+    return not board._columns[num].is_full()
+
+
+def _is_within_column_range(board, num):
+    return num >= 0 and num < len(board)
+
+
+def _is_int(aString):
+    try:
+        num = int(aString)
+        return True
+    except:
+        return False
