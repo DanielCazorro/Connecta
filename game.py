@@ -1,5 +1,5 @@
 from match import Match
-from player import Player
+from player import HumanPlayer, Player
 import pyfiglet
 from enum import Enum, auto
 
@@ -33,12 +33,16 @@ class Game:
 
         # configuro la partida
         self._configura_by_user()
+
         # arranco el game loop
-        pass
+        self._start_game_loop()
 
     def print_logo(self):
         logo = pyfiglet.Figlet(font='stop')
         print(logo.renderText('Connecta'))
+
+    def _start_game_loop():
+        pass
 
     def _configura_by_user(self):
         """
@@ -48,7 +52,7 @@ class Game:
         self.round_type = self._get_round_type()
 
         # crear la partida
-        self.match = self.make_match()
+        self.match = self._make_match()
 
     def _get_round_type(self):
         """
@@ -69,5 +73,18 @@ class Game:
         else:
             return RoundType.COMPUTER_VS_HUMAN
 
-    def make_match(self):
-        pass
+    def _make_match(self):
+        """
+        Player 1 siempre robótico
+        """
+        if self.round_type == RoundType.COMPUTER_VS_COMPUTER:
+            # ambos jugadores robóticos
+            player1 = Player('T-X')
+            player2 = Player('T-1000')
+
+        else:
+            # ordenador vs humano
+            player1 = Player('T-800')
+            player2 = HumanPlayer(name=input('Enter your name, puny human: '))
+
+        return Match(player1, player2)
