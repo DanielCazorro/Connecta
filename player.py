@@ -6,10 +6,11 @@ class Player():
     Juega en un tablero después de preguntar a un oráculo
     """
 
-    def __init__(self, name,  char=None, opponent=None,   oracle=BaseOracle()) -> None:
+    def __init__(self, name,  char=None, opponent=None, oracle=BaseOracle()) -> None:
         self.name = name
         self.char = char
         self._oracle = oracle
+        self.opponent = opponent
 
     def play(self, board):
         """
@@ -48,7 +49,7 @@ class Player():
 
 class HumanPlayer(Player):
 
-    def __init__(self, name, char):
+    def __init__(self, name, char, opponent=None):
         super().__init__(name, char)
 
     def _ask_oracle(self, board):

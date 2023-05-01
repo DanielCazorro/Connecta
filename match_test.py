@@ -26,7 +26,8 @@ def test_next_player_is_round_robbin():
 
 def test_players_are_opponents():
     t = Match(otto, xavier)
-    p1 = t.next_player
-    p2 = t.next_player
-    assert p1.opponent == p2
-    assert p2.opponent == p1
+    x = t.next_player('x')
+    o = t.next_player('o')
+
+    assert o.opponent == x
+    assert x.opponent == o
