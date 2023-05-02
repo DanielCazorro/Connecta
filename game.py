@@ -42,6 +42,33 @@ class Game:
         print(logo.renderText('Connecta'))
 
     def _start_game_loop():
+        # bucle infinito
+        while True:
+            # obtengo el jugador de turno
+            current_player = self.match.next_player
+            # le hago jugar
+            current_player.play(self.board)
+            # muestro su jugada
+            self.display_move(current_player)
+            # imprimo el tablero
+            self.display_board()
+            # si el juego ha terminado...
+            if self._is_game_over():
+                # muestro resultado final
+                self.display_result()
+                # salgo del bucle
+                break
+
+    def display_move(self, player):
+        pass
+
+    def display_board(self):
+        pass
+
+    def display_result(self):
+        pass
+
+    def _is_game_over(self):
         pass
 
     def _configura_by_user(self):
