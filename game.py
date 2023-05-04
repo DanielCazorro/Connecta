@@ -1,9 +1,12 @@
 from match import Match
 from player import HumanPlayer, Player
 import pyfiglet
+from beautifultable import BeautifulTable
 from enum import Enum, auto
+from settings import BOARD_LENGTH
 
 from square_board import SquareBoard
+from list_utils import reverse_matrix
 
 
 class RoundType(Enum):
@@ -70,7 +73,21 @@ class Game:
             f'\n{player.name} ({player.char} has moved in column {player.last_move})')
 
     def _display_board(self):
-        print(self.board)
+        """
+        Print the board in its current state
+        """
+        # obtener una matriz de caracteres a partir del tablero
+        matrix = self.board.as_matrix()
+        matrix = reverse_matrix(matrix)
+
+        # crear un atabla con beautifultable
+        bt = BeautifulTable()
+        for col in matrix:
+            bt.columns.append(col)
+        bt.columns.header = [str(i) for i in range(BOARD_LENGTH)]
+
+        # imprimirla
+        print(bt)
 
     def _display_result(self):
         winner = self.match.get_winner(self.board)
