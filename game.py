@@ -76,6 +76,7 @@ class Game:
         """
         Print the board in its current state
         """
+
         # obtener una matriz de caracteres a partir del tablero
         matrix = self.board.as_matrix()
         matrix = reverse_matrix(matrix)
