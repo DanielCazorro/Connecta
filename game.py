@@ -66,10 +66,11 @@ class Game:
                     self._display_board()
 
     def _display_move(self, player):
-        pass
+        print(
+            f'\n{player.name} ({player.char} has moved in column {player.last_move})')
 
     def _display_board(self):
-        pass
+        print(self.board)
 
     def _display_result(self):
         winner = self.match.get_winner(self.board)
