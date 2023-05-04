@@ -41,23 +41,29 @@ class Game:
         logo = pyfiglet.Figlet(font='stop')
         print(logo.renderText('Connecta'))
 
-    def _start_game_loop():
+    def _start_game_loop(self):
         # bucle infinito
         while True:
-            # obtengo el jugador de turno
+            # obtengo el juagdor de turno
             current_player = self.match.next_player
             # le hago jugar
             current_player.play(self.board)
             # muestro su jugada
-            self.display_move(current_player)
+            self._display_move(current_player)
             # imprimo el tablero
-            self.display_board()
-            # si el juego ha terminado...
-            if self._is_game_over():
-                # muestro resultado final
-                self.display_result()
-                # salgo del bucle
-                break
+            self._display_board()
+            # si el juego ha terminado,
+            if self._has_winner_or_tie():
+                # muestro el resultado final
+                self._display_result()
+
+                if self.match.is_match_over():
+                    # se acabó
+                    break
+                else:
+                    # reseteamos el board
+                    self.board = SquareBoard()
+                    self._display_board()
 
     def display_move(self, player):
         pass
@@ -68,8 +74,33 @@ class Game:
     def display_result(self):
         pass
 
+    def _has_winner_or_tie(self):
+        """
+        Game is over if there's a winner or there's a tie
+        """
+        winner = self.match.get_winner(self.board)
+        if winner != None:
+            winner.on_win()
+            winner.opponent.on_lose()
+            return True  # there is a winner
+        elif self.board.is_full():
+            return True  # tie
+        else:
+            return False  # the game is still on
+
     def _is_game_over(self):
-        pass
+        """
+        El juego se acaba cuando hay vencedor o empate
+        """
+        winner = self.match._has_winner_or_tie(self.board)
+        if winner != None:
+            # hay un vencedor
+            return True
+        elif self.board.is_full:
+            # empate
+            return True
+        else:
+            return False
 
     def _configura_by_user(self):
         """

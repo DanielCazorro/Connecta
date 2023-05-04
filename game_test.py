@@ -1,12 +1,14 @@
 import pytest
-
 from game import Game
 from square_board import SquareBoard
 
 
-def test_creation():
-    g = Game()
-    assert g != None
+def test_created_with_defaults():
+    game = Game()
+    assert game.round_type != None
+    assert game.match != None
+    assert game.board != None
+    assert game.board.is_full() == False
 
 
 def test_is_game_over():

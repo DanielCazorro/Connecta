@@ -22,6 +22,12 @@ class Player():
             self._opponent = other
             other._opponent = self
 
+    def on_win(self):
+        pass
+
+    def on_lose(self):
+        pass
+
     def play(self, board):
         """
         Elige la mejor columna de aquellas que recomienda el oráculo
