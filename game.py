@@ -65,14 +65,19 @@ class Game:
                     self.board = SquareBoard()
                     self._display_board()
 
-    def display_move(self, player):
+    def _display_move(self, player):
         pass
 
-    def display_board(self):
+    def _display_board(self):
         pass
 
-    def display_result(self):
-        pass
+    def _display_result(self):
+        winner = self.match.get_winner(self.board)
+        if winner != None:
+            print(f"\n{winner.name} ({winner.char}) wins!!!")
+        else:
+            print(
+                f"\nA tie between {self.match.get_player('x').name} (x) and {self.match.get_player('o').name} (o)")
 
     def _has_winner_or_tie(self):
         """

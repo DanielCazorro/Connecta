@@ -28,3 +28,20 @@ class Match():
             return self.get_player('o')
         else:
             return None
+
+    def is_match_over(self):
+        """
+        pregunta al usuario si hay huevos para otra partida
+        """
+        result = True
+        while True:
+            answer = input(
+                'Would you like to play another match? (Y/N) ').upper()
+            if answer == 'Y':
+                result = False
+                break
+            elif answer == 'N':
+                result = True
+                break
+
+        return result
