@@ -1,5 +1,5 @@
 from oracle import BaseOracle, ColumnClassification, ColumnRecommendation
-
+import random
 
 class Player():
     """
@@ -63,7 +63,7 @@ class Player():
                             ColumnClassification.FULL, recommendations))
 
         # pillamos la primera de las válidas
-        return valid[0]
+        return random.choice(valid)
 
 
 class HumanPlayer(Player):
