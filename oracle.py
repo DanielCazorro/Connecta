@@ -1,10 +1,13 @@
 from enum import Enum, auto
 from copy import deepcopy
 
+from settings import BOARD_LENGTH
+
 
 class ColumnClassification(Enum):
     FULL = -1   # imposible
-    MAYBE = 1   # indeseable
+    LOSE = 1    # Muy indeseable
+    MAYBE = 10   # indeseable
     WIN = 100   # La mejor opción: gano por narices
 
 
@@ -56,9 +59,26 @@ class SmartOracle(BaseOracle):
         recommentation = super().get_recommendation(board, index, player)
         if recommentation.classification == ColumnClassification.MAYBE:
             # se puede mejorar
-            recommentation = self._is_winning_move(board, index, player)
+            if self._is_winning_move(board, index, player):
+                recommentation.classification = ColumnClassification.WIN
+            elif self._is_losing_move(board, index, player):
+                recommentation.classification = ColumnClassification.LOSE
         return recommentation
     
+    def _is_losing_move(self, board, index, player):
+        """
+        Si player juega en index, ¿genera una jugada vencedora par el oponente en alguna de las demás columans
+        """
+        tmp = self._play_on_tmp_board(board, index, player)
+
+        will_lose = False
+        for i in range(0, BOARD_LENGTH):
+            if self._is_winning_move(tmp, i, player.opponent):
+                will_lose = True
+                break
+        return will_lose
+
+
     def _is_winning_move(self, board, index, player):
         """
         Determina si al jugar en una posición, nos llevaría a ganar de inmediato
