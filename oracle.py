@@ -16,9 +16,9 @@ class ColumnRecommendation():
         #  si son de clases distintas, pues distintos
         if not isinstance(other, self.__class__):
             return False
-        #  si son de la misma clase, comparo las propiedades de cada uno
+        #  sólo importa la clasificación
         else:
-            return (self.index, self.classification) == (other.index, other.classification)
+            return self.classification ==  other.classification
 
     def __hash__(self) -> int:
         return hash((self.index, self.classification))
@@ -45,3 +45,21 @@ class BaseOracle():
             classification = ColumnClassification.FULL
 
         return ColumnRecommendation(index, classification)
+
+class SmartOracle(BaseOracle):
+
+    def _get_column_recommendation(self, board, index, player):
+        """
+        Afina la clasificación de super e intenta encontrar columnas WIN
+        """
+        recommentation = super().get_recommendation(board, index, player)
+        if recommentation.classification == ColumnClassification.MAYBE:
+            # se puede mejorar
+            recommentation = self._is_winning_move(board, index, player)
+        return recommentation
+    
+    def _is_winning_move(board, index, player):
+        """
+        Determina si al jugar en una posición, nos llevaría a ganar de inmediato
+        """
+        pass
