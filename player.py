@@ -61,9 +61,14 @@ class Player():
         #  quitamos las no válicas
         valid = list(filter(lambda x: x.classification !=
                             ColumnClassification.FULL, recommendations))
-
-        # pillamos la primera de las válidas
-        return random.choice(valid)
+        # ordenamos por el valor de clasificación
+        valid = sorted(valid, key=lambda x : x.classification.value, reverse=True)
+        # si son todas iguales, pillo una al azar
+        if all_same(valid):
+            return random.choice(valid)
+        else:
+            # si no lo son , pillo la más deseable (que será la primera)
+            return valid[0]
 
 
 class HumanPlayer(Player):

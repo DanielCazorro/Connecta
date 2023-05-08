@@ -2,8 +2,9 @@ from enum import Enum, auto
 
 
 class ColumnClassification(Enum):
-    FULL = auto()
-    MAYBE = auto()
+    FULL = -1   # imposible
+    MAYBE = 1   # indeseable
+    WIN = 100   # La mejor opción: gano por narices
 
 
 class ColumnRecommendation():
