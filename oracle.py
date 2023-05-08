@@ -1,4 +1,5 @@
 from enum import Enum, auto
+from copy import deepcopy
 
 
 class ColumnClassification(Enum):
@@ -58,8 +59,24 @@ class SmartOracle(BaseOracle):
             recommentation = self._is_winning_move(board, index, player)
         return recommentation
     
-    def _is_winning_move(board, index, player):
+    def _is_winning_move(self, board, index, player):
         """
         Determina si al jugar en una posición, nos llevaría a ganar de inmediato
         """
-        pass
+        # Hago una copia del tabler
+        # Juego en ella
+        tmp = self._play_on_tmp_board(board, index, player)
+
+        # Determino si hay una victoria para player
+        return tmp.is_victory(player.char)
+    
+    def _play_on_tmp_board(self, board, index, player):
+        """
+        Crea una copia del board y juega en él
+        """
+        tmp = deepcopy(board)
+
+        tmp.add(player.char, index)
+
+        # devuelvo la copia alterada
+        return tmp
