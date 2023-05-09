@@ -171,3 +171,4 @@ def collapse_matrix(m, empty='.', fence = '|'):
         collapsed = collapsed + fence + collapse_list(elt, empty)
     
     return collapsed[1:]
+
