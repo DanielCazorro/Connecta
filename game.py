@@ -156,10 +156,13 @@ class Game:
             response = input('Please type 1, 2 or 3: ').strip()
             if response == '1':
                 level = DifficultyLevel.LOW
+                break
             elif response == '2':
                 level = DifficultyLevel.MEDIUM
+                break
             else:
                 level = DifficultyLevel.HIGH
+                break
         return level
 
     def _get_round_type(self):

@@ -56,7 +56,7 @@ class SmartOracle(BaseOracle):
         """
         Afina la clasificación de super e intenta encontrar columnas WIN
         """
-        recommentation = super().get_recommendation(board, index, player)
+        recommentation = super()._get_column_recommendation(board, index, player)
         if recommentation.classification == ColumnClassification.MAYBE:
             # se puede mejorar
             if self._is_winning_move(board, index, player):
