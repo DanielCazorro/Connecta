@@ -172,3 +172,23 @@ def collapse_matrix(m, empty='.', fence = '|'):
     
     return collapsed[1:]
 
+def replace_all_in_list(original, old, new):
+    """
+    Cambia todas las ocurrencias de old por new
+    """
+    result = []
+    for elt in original:
+        if elt == old:
+            result.append(new)
+        else:
+            result.append(elt)
+    return result
+
+def replace_all_in_matrix(original, old, new):
+    """
+    Aplica replace_all_in_list a todas las listas
+    """
+    result = []
+    for each_list in original:
+        result.append(replace_all_in_list(each_list, old, new))
+    return result
