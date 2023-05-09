@@ -3,6 +3,7 @@ import pytest
 from list_utils import *
 from oracle import ColumnRecommendation, ColumnClassification
 
+
 def test_find_one():
     needle = 1
     none = [0, 0, 5, 's']
@@ -98,13 +99,27 @@ def test_reverse_matrix():
     assert reverse_matrix([[0, 1, 2, 3], [0, 1, 2, 3]]) == [
         [3, 2, 1, 0], [3, 2, 1, 0]]
 
+
 def test_all_same():
-    assert all_same([9,1,2,3,4]) == False
+    assert all_same([9, 1, 2, 3, 4]) == False
     assert all_same([[], [], []])
     assert all_same([])
 
-    assert all_same([ColumnRecommendation(0, ColumnClassification.WIN), 
+    assert all_same([ColumnRecommendation(0, ColumnClassification.WIN),
                      ColumnRecommendation(2, ColumnClassification.WIN)])
-    
-    assert all_same([ColumnRecommendation(0, ColumnClassification.MAYBE), 
+
+    assert all_same([ColumnRecommendation(0, ColumnClassification.MAYBE),
                      ColumnRecommendation(0, ColumnClassification.WIN)]) == False
+
+
+def test_collapse_lsit():
+    assert collapse_list([]) == ''
+    assert collapse_list(['o', 'x', 'x', 'o']) == 'oxxo'
+    assert collapse_list(['x', 'x', None, None, None]) == 'xx...'
+
+
+def test_collapse_matrix():
+    assert collapse_matrix([]) == ''
+    assert coolapse_matrix(['x', 'x', None],
+                           ['o', 'x', 'x'],
+                           ['o', None, None]) == 'xx.|oxx|o..'
