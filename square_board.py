@@ -1,6 +1,7 @@
 from linear_board import LinearBoard
-from list_utils import collapse_matrix, displace_matrix, reverse_matrix, transpose
+from list_utils import collapse_matrix, displace_matrix, replace_all_in_matrix, reverse_matrix, transpose
 from settings import BOARD_LENGTH
+from string_utils import explode_list_of_strings
 
 
 class SquareBoard():
@@ -28,9 +29,16 @@ class SquareBoard():
         Transforma una cadena en formato de BoardCode en una lista de LinearBoards y luego lo transforma en un tabler cuadrado
         """
         # 1, Convertir la cadena del código en una lista de cadenas
+        list_of_strings = board_raw_code.split("|")
+
         # 2, Transformar cada cadena en una lista de caracteres
+        matrix = explode_list_of_strings(list_of_strings)
+
         # 3, Cambiamos todas las ocurrencias de . por None
+        matrix = replace_all_in_matrix(matrix, '.', None)
+
         # 4, Transformamos esa lsita en un SquareBoard
+        return cls.fromList(matrix)
 
     def __init__(self):
         self._columns = [LinearBoard() for _ in range(BOARD_LENGTH)]
