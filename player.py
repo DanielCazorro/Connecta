@@ -1,4 +1,5 @@
 from list_utils import all_same
+from move import Move
 from oracle import BaseOracle, ColumnClassification, ColumnRecommendation
 import random
 
@@ -38,13 +39,13 @@ class Player():
         (best, recommendations) = self._ask_oracle(board)
 
         # Juego en la mejor
-        self._play_on(board, best.index)
+        self._play_on(board, best.index, recommendations)
 
-    def _play_on(self, board, position):
+    def _play_on(self, board, position, recommndations):
         # juega en la pos
         board.add(self.char, position)
         # Guardo mi última jugada
-        self.last_move = position
+        self.last_move = Move(position, board.as_code(), recommndations, self )
 
     def _ask_oracle(self, board):
         """
