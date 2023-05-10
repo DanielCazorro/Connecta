@@ -2,6 +2,7 @@ from enum import Enum, auto
 from copy import deepcopy
 
 from settings import BOARD_LENGTH
+from square_board import SquareBoard
 
 
 class ColumnClassification(Enum):
@@ -109,15 +110,15 @@ class MemoizingOracle(SmartOracle):
         super().__init__()
         self._past_recommendations = {}
 
-    def _make_key(board, player):
+    def _make_key(self, board_code, player):
         """
         La clave debe de combinar el board y el player, de la forma más sencilla posible
         """
-        return f'{board.as_code().raw_code}@{player.char}'
+        return f'{board_code.raw_code}@{player.char}'
 
     def get_recommendation(self, board, player):
         # Creamos la clave
-        key = self._make_key(board, player)
+        key = self._make_key(board.as_code(), player)
 
         # Miramos en el caché: si no está, calculo y guardo en la nube
         if key not in self._past_recommendations:
@@ -127,4 +128,16 @@ class MemoizingOracle(SmartOracle):
         return self._past_recommendations[key]
 
 class LearningOracle(MemoizingOracle):
-    pass
+    
+    def update_to_bad(self, board_code, player, position):
+        # Crear clave
+        key = self._make_key(board_code, player)
+
+        # Obtener la clasificación errónea
+        recommendation = self.get_recommendation(SquareBoard.fromBoardCode(board_code, player))
+
+        # Corregirla
+        recommendation[position] = ColumnRecommendation(position, ColumnClassification.BAD)
+
+        # Sustituirla
+        self._past_recommendations[key] = recommendation
