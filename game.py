@@ -1,5 +1,5 @@
 from match import Match
-from oracle import BaseOracle, SmartOracle
+from oracle import BaseOracle, LearningOracle, SmartOracle
 from player import HumanPlayer, Player
 import pyfiglet
 from beautifultable import BeautifulTable
@@ -190,12 +190,12 @@ class Game:
         """
         _levels = {DifficultyLevel.LOW: BaseOracle(),
                    DifficultyLevel.MEDIUM: SmartOracle(),
-                   DifficultyLevel.HIGH: SmartOracle()}
+                   DifficultyLevel.HIGH: LearningOracle()}
         
         if self.round_type == RoundType.COMPUTER_VS_COMPUTER:
             # ambos jugadores robóticos
-            player1 = Player('T-X', oracle=SmartOracle())
-            player2 = Player('T-1000', oracle=SmartOracle())
+            player1 = Player('T-X', oracle=LearningOracle())
+            player2 = Player('T-1000', oracle=LearningOracle())
 
         else:
             # ordenador vs humano
