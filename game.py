@@ -1,6 +1,6 @@
 from match import Match
 from oracle import BaseOracle, LearningOracle, SmartOracle
-from player import HumanPlayer, Player
+from player import HumanPlayer, Player, ReportingPlayer
 import pyfiglet
 from beautifultable import BeautifulTable
 from enum import Enum, auto
@@ -23,7 +23,7 @@ class DifficultyLevel(Enum):
 
 class Game:
 
-    def __init__(self, round_type=RoundType.COMPUTER_VS_COMPUTER, match=Match(Player('Chip'), Player('Chop'))):
+    def __init__(self, round_type=RoundType.COMPUTER_VS_COMPUTER, match=Match(ReportingPlayer('Chip'), ReportingPlayer('Chop'))):
         # Guardar valores recibidos
         self.round_type = round_type
         self.match = match
@@ -194,8 +194,8 @@ class Game:
         
         if self.round_type == RoundType.COMPUTER_VS_COMPUTER:
             # ambos jugadores robóticos
-            player1 = Player('T-X', oracle=LearningOracle())
-            player2 = Player('T-1000', oracle=LearningOracle())
+            player1 = ReportingPlayer('T-X', oracle=LearningOracle())
+            player2 = ReportingPlayer('T-1000', oracle=LearningOracle())
 
         else:
             # ordenador vs humano

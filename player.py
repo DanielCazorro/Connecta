@@ -41,6 +41,12 @@ class Player():
         # Juego en la mejor
         self._play_on(board, best.index, recommendations)
 
+    def on_win(self):
+        pass
+
+    def on_lose(self):
+        pass
+
     def _play_on(self, board, position, recommndations):
         # juega en la pos
         board.add(self.char, position)
@@ -91,6 +97,21 @@ class HumanPlayer(Player):
                 # Si no lo es, jugamos donde ha dicho y salimos del bucle
                 pos = int(raw)
                 return (ColumnRecommendation(pos, None), None)
+
+
+class ReportingPlayer(Player):
+
+    def on_lose(self):
+        """
+        Avisar al oráculo que su última recomendación ha sido mala
+        """
+        board_code = self.last_move.board_code
+        position = self.last_move.position
+        self._oracle.update_to_bad(board_code, self, position)
+
+        
+
+
 
 
 # funciones de validación de índice de columna

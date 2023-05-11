@@ -45,3 +45,4 @@ def test_is_game_over():
 
     game.board = unfinished
     assert game._has_winner_or_tie() == False
+    
