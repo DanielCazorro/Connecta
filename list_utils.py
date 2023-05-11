@@ -74,12 +74,14 @@ def first_elements(list_of_lists):
 
 def nth_elements(list_of_lists, n):
     """
-    Recibe una lista de listas y devuelve una lista con los enésimos elementos de la original
+    Recibe una lista de listas y devuelve una lista
+    con los enésimos elementos de la original
     """
     result = []
     for list in list_of_lists:
         result.append(list[n])
     return result
+
 
 
 def transpose(matrix):
