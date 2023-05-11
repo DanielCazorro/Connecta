@@ -71,7 +71,7 @@ class Game:
 
     def _display_move(self, player):
         print(
-            f'\n{player.name} ({player.char} has moved in column {player.last_move.position})')
+            f'\n{player.name} ({player.char} has moved in column {player.last_moves[0].position}\n)')
 
     def _display_board(self):
         """
@@ -119,6 +119,8 @@ class Game:
         """
         winner = self.match._has_winner_or_tie(self.board)
         if winner != None:
+            winner.on_win()
+            winner.opponent.on_lose()
             # hay un vencedor
             return True
         elif self.board.is_full:

@@ -13,7 +13,7 @@ class Player():
         self.char = char
         self._oracle = oracle
         self.opponent = opponent
-        self.last_move = None
+        self.last_moves = []
 
     @property
     def opponent(self):
@@ -50,8 +50,8 @@ class Player():
     def _play_on(self, board, position, recommndations):
         # juega en la pos
         board.add(self.char, position)
-        # Guardo mi última jugada
-        self.last_move = Move(position, board.as_code(), recommndations, self )
+        # Guardo mi última jugada (siempre al principio de la lista)
+        self.last_moves.insert(0, Move(position, board.as_code(), recommndations, self ))
 
     def _ask_oracle(self, board):
         """
@@ -103,11 +103,10 @@ class ReportingPlayer(Player):
 
     def on_lose(self):
         """
-        Avisar al oráculo que su última recomendación ha sido mala
+        Le pide al oráculo que revise sus recomendaciones
         """
-        board_code = self.last_move.board_code
-        position = self.last_move.position
-        self._oracle.update_to_bad(board_code, self, position)
+
+        self._oracle.backtrack(self.last_moves)
 
         
 
