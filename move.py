@@ -5,3 +5,5 @@ class Move:
         self.board_code = board_code
         self.recommendations = recommendations
         self.player = player
+
+        

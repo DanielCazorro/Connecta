@@ -66,7 +66,7 @@ class BaseOracle():
                 break
         return result
     
-        # métodos que han de ser sobre-escritos por mis subclases
+    # métodos que han de ser sobre-escritos por mis subclases
     def update_to_bad(self, move):
         pass
 
@@ -157,35 +157,35 @@ class MemoizingOracle(SmartOracle):
 class LearningOracle(MemoizingOracle):
 
     def update_to_bad(self, move):
-        # Crear clave
-        key = self._make_key(move, move.player)
-
-        # Obtener la clasificación errónea
+        # crear clave
+        key = self._make_key(move.board_code, move.player)
+        # obtener la clasificación erronea
         recommendation = self.get_recommendation(
-            SquareBoard.fromBoardCode(move.board_code, move.player))
-
-        # Corregirla
+            SquareBoard.fromBoardCode(move.board_code), move.player)
+        # corregirla
         recommendation[move.position] = ColumnRecommendation(
             move.position, ColumnClassification.BAD)
-
-        # Sustituirla
+        # sustituirla
         self._past_recommendations[key] = recommendation
 
     def backtrack(self, list_of_moves):
         """
-        Repasa todas las jugadas y si encuentra una en la cual todo estaba perdido, quiere decir que la anterior tiene que ser actualizada a BAD
+        Repasa todos las jugadas y si encuentra una en la cual todo 
+        estaba perdido, quiere decir que la anterior tiene que ser 
+        actualizada a BAD
         """
-        # Los moves están en orden inverso(el primero será el último)
+        # los moves están en orden inverso (el primero será el último)
         print('Learning...')
-        # Por cada move
+
+        # por cada move...
         for move in list_of_moves:
-            # Lo reclasifico a bad
+            # lo reclasifico a bad
             self.update_to_bad(move)
 
-            # Evaluo si todo estaba perdido tras esta clasificación
+            # evaluo si todo estaba perdido tras esta clasificación
             board = SquareBoard.fromBoardCode(move.board_code)
             if not self.no_good_options(board, move.player):
-                # Si no todo estaba perdido, salgo. Sino, sigo
+                # si no todo estaba perdido, salgo. Sino, sigo
                 break
 
         print(f'Size of knowledgebase: {len(self._past_recommendations)}')

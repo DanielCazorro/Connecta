@@ -22,22 +22,23 @@ class SquareBoard():
     @classmethod
     def fromBoardCode(cls, board_code):
         return cls.fromBoardRawCode(board_code.raw_code)
-    
+
     @classmethod
     def fromBoardRawCode(cls, board_raw_code):
         """
-        Transforma una cadena en formato de BoardCode en una lista de LinearBoards y luego lo transforma en un tabler cuadrado
+        Transforma una cadena en formato de BoardCode en una 
+        lista de LinearBoards y luego lo transfroma en un tablero cuadrado
         """
-        # 1, Convertir la cadena del código en una lista de cadenas
+        # 1. Convertir la cadena del código en una lista de cadenas
         list_of_strings = board_raw_code.split("|")
 
-        # 2, Transformar cada cadena en una lista de caracteres
+        # 2. Transformar cada cadena en una lista de caracteres
         matrix = explode_list_of_strings(list_of_strings)
 
-        # 3, Cambiamos todas las ocurrencias de . por None
+        # 3. Cambiamos todas las ocurrencias de . por None
         matrix = replace_all_in_matrix(matrix, '.', None)
 
-        # 4, Transformamos esa lsita en un SquareBoard
+        # 4. Transformamos esa lista en un SquareBoard 
         return cls.fromList(matrix)
 
     def __init__(self):
@@ -134,16 +135,16 @@ class BoardCode:
     @property
     def raw_code(self):
         return self._raw_code
-    
+
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
             return False
         else:
-            # Solo importa el raw code
+            # solo importa el raw code
             return self.raw_code == other.raw_code
-        
+
     def __hash__(self):
         return hash(self.raw_code)
-    
+
     def __repr__(self):
         return f'{self.__class__}: {self.raw_code}'
