@@ -1,7 +1,9 @@
+from beautifultable import BeautifulTable
 from list_utils import all_same
 from move import Move
 from oracle import BaseOracle, ColumnClassification, ColumnRecommendation
 import random
+from settings import BOARD_LENGTH, DEBUG
 
 class Player():
     """
@@ -41,17 +43,32 @@ class Player():
         # Juego en la mejor
         self._play_on(board, best.index, recommendations)
 
+    def display_recommendations(self, board):
+        recs = map(lambda x: str(x.classification).split('.')[
+                   1].lower(), self._oracle.get_recommendation(board, self))
+
+        bt = BeautifulTable()
+        bt.rows.append(recs)
+
+        bt.columns.header = [str(i) for i in range(BOARD_LENGTH)]
+
+        print(bt)
+
     def on_win(self):
         pass
 
     def on_lose(self):
         pass
 
-    def _play_on(self, board, position, recommndations):
+    def _play_on(self, board, position, recommendations):
+        # imprimo recs en caso de debug
+        if DEBUG:
+            self.display_recommendations(board)
+            
         # juega en la pos
         board.add(self.char, position)
-        # Guardo mi última jugada (siempre al principio de la lista)
-        self.last_moves.insert(0, Move(position, board.as_code(), recommndations, self ))
+        # guarda la última jugada (siempre al principio de la lista)
+        self.last_moves.insert(0, Move(position, board.as_code(), recommendations, self))
 
     def _ask_oracle(self, board):
         """
@@ -107,10 +124,6 @@ class ReportingPlayer(Player):
         """
 
         self._oracle.backtrack(self.last_moves)
-
-        
-
-
 
 
 # funciones de validación de índice de columna

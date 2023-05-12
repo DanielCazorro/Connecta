@@ -7,7 +7,8 @@ from square_board import SquareBoard
 
 class ColumnClassification(Enum):
     FULL = -1   # imposible
-    BAD = 1    # Muy indeseable
+    LOSE = 1    # derrota inminente
+    BAD = 5    # Muy indeseable
     MAYBE = 10   # indeseable
     WIN = 100   # La mejor opción: gano por narices
 
@@ -87,7 +88,7 @@ class SmartOracle(BaseOracle):
             if self._is_winning_move(board, index, player):
                 recommentation.classification = ColumnClassification.WIN
             elif self._is_losing_move(board, index, player):
-                recommentation.classification = ColumnClassification.BAD
+                recommentation.classification = ColumnClassification.LOSE
         return recommentation
 
     def _is_losing_move(self, board, index, player):
