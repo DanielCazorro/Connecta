@@ -31,7 +31,7 @@ class Match():
 
     def is_match_over(self):
         """
-        pregunta al usuario si hay huevos para otra partida
+        pregunta al usuario si quiere jugar otra partida
         """
         result = True
         while True:

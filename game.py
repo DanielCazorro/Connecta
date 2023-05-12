@@ -56,7 +56,7 @@ class Game:
             self._display_move(current_player)
             # imprimo el tablero
             self._display_board()
-            # si el juego ha terminado,
+            # si hay vencedor o empate,
             if self._has_winner_or_tie():
                 # muestro el resultado final
                 self._display_result()
@@ -113,21 +113,19 @@ class Game:
         else:
             return False  # the game is still on
 
-    def _is_game_over(self):
+    def _has_winner_or_tie(self):
         """
-        El juego se acaba cuando hay vencedor o empate
+        Game is over if there's a winner or there's a tie
         """
-        winner = self.match._has_winner_or_tie(self.board)
+        winner = self.match.get_winner(self.board)
         if winner != None:
             winner.on_win()
             winner.opponent.on_lose()
-            # hay un vencedor
-            return True
-        elif self.board.is_full:
-            # empate
-            return True
+            return True  # there is a winner
+        elif self.board.is_full():
+            return True  # tie
         else:
-            return False
+            return False  # the game is still on
 
     def _configura_by_user(self):
         """
