@@ -1,6 +1,6 @@
 import pytest
 
-from list_utils import *
+from list_utils import find_one, find_n, find_streak, first_elements, transpose, displace, all_same, reverse_list, collapse_list, collapse_matrix, replace_all_in_list, replace_all_in_matrix, reverse_matrix
 from oracle import ColumnRecommendation, ColumnClassification
 
 
@@ -28,7 +28,7 @@ def test_find_n():
 
 def test_find_streak():
     assert find_streak([1, 2, 3, 4, 5], 4, -1) == False
-    assert find_streak([1, 2, 3, 4, 5], 42, -1) == False
+    assert find_streak([1, 2, 3, 4, 5], 42, 2) == False
     assert find_streak([1, 2, 3, 4], 4, 1)
     assert find_streak([1, 2, 3, 1, 2], 2, 2) == False
     assert find_streak([1, 2, 3, 4, 5, 5, 5], 5, 3)

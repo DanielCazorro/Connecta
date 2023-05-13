@@ -1,10 +1,10 @@
-
 def explode_string(a_string):
     """
-    Transforma una cadena en una lista de caracteres
+    Transforma una cadena en una lista de caracters
     'Han' => ['H', 'a', 'n']
     """
     return list(a_string)
+
 
 def explode_list_of_strings(list_of_strings):
     """

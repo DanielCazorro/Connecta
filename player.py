@@ -1,16 +1,17 @@
-from beautifultable import BeautifulTable
-from list_utils import all_same
-from move import Move
+
 from oracle import BaseOracle, ColumnClassification, ColumnRecommendation
 import random
-from settings import BOARD_LENGTH, DEBUG
+from list_utils import all_same
+from move import Move
+from settings import DEBUG, BOARD_LENGTH
+from beautifultable import BeautifulTable
 
 class Player():
     """
     Juega en un tablero después de preguntar a un oráculo
     """
 
-    def __init__(self, name,  char=None, opponent=None, oracle=BaseOracle()) -> None:
+    def __init__(self, name,  char = None, opponent = None,   oracle=BaseOracle()) -> None:
         self.name = name
         self.char = char
         self._oracle = oracle
@@ -23,26 +24,25 @@ class Player():
 
     @opponent.setter
     def opponent(self, other):
+        self._opponent = other
         if other != None:
-            self._opponent = other
+            assert other.char != self.char
             other._opponent = self
 
-    def on_win(self):
-        pass
-
-    def on_lose(self):
-        pass
 
     def play(self, board):
         """
         Elige la mejor columna de aquellas que recomienda el oráculo
         """
-        # Pretunto al oráculo
+        # Pregunto al oráculo
         (best, recommendations) = self._ask_oracle(board)
 
-        # Juego en la mejor
+        # juego en la mejor
         self._play_on(board, best.index, recommendations)
 
+        
+
+        
     def display_recommendations(self, board):
         recs = map(lambda x: str(x.classification).split('.')[
                    1].lower(), self._oracle.get_recommendation(board, self))
@@ -60,6 +60,7 @@ class Player():
     def on_lose(self):
         pass
 
+
     def _play_on(self, board, position, recommendations):
         # imprimo recs en caso de debug
         if DEBUG:
@@ -69,12 +70,14 @@ class Player():
         board.add(self.char, position)
         # guarda la última jugada (siempre al principio de la lista)
         self.last_moves.insert(0, Move(position, board.as_code(), recommendations, self))
+        
+        
 
     def _ask_oracle(self, board):
         """
-        Pregunta al oráculo y devuelve la mejor opción
+        Pregunta al oráculo y devuielve la mejor opción
         """
-        # obtenemos la recomendaciones
+        # obtenemos las recomendaciones
         recommendations = self._oracle.get_recommendation(board, self)
 
         # seleccionamos la mejor
@@ -83,35 +86,37 @@ class Player():
         return (best, recommendations)
 
     def _choose(self, recommendations):
-        #  quitamos las no válicas
+        # quitamos las no válidas
         valid = list(filter(lambda x: x.classification !=
-                            ColumnClassification.FULL, recommendations))
-        # ordenamos por el valor de clasificación
+                     ColumnClassification.FULL, recommendations))
+        # ordenamos por el valor de clasificación 
         valid = sorted(valid, key=lambda x : x.classification.value, reverse=True)
         # si son todas iguales, pillo una al azar
         if all_same(valid):
             return random.choice(valid)
         else:
-            # si no lo son , pillo la más deseable (que será la primera)
+            # si no lo son, pillo la más deseable (que será la primera)
             return valid[0]
+        
 
 
 class HumanPlayer(Player):
 
-    def __init__(self, name, char=None, opponent=None):
+    def __init__(self, name, char = None):
         super().__init__(name, char)
 
     def _ask_oracle(self, board):
         """
         Le pido al humano que es mi oráculo
         """
+
         while True:
-            # Pedimos columna al humano
+            # pedimos columna al humano
             raw = input('Select a column, puny human: ')
-            # Verficamos que su respuesta no se auna idiotez
+            # verificamos que su respuesta no sea una idiotez
             if _is_int(raw) and _is_within_column_range(board, int(raw)) and _is_non_full_column(board, int(raw)):
 
-                # Si no lo es, jugamos donde ha dicho y salimos del bucle
+                # si no lo es, jugamos donde ha dicho y salimos del bucle
                 pos = int(raw)
                 return (ColumnRecommendation(pos, None), None)
 
@@ -122,12 +127,13 @@ class ReportingPlayer(Player):
         """
         Le pide al oráculo que revise sus recomendaciones
         """
-
         self._oracle.backtrack(self.last_moves)
+        
+
+
 
 
 # funciones de validación de índice de columna
-
 def _is_non_full_column(board, num):
     return not board._columns[num].is_full()
 

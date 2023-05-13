@@ -9,8 +9,7 @@ def test_created_with_defaults():
     assert game.match != None
     assert game.board != None
     assert game.board.is_full() == False
-
-
+    
 def test_is_game_over():
     game = Game()
     win_x = SquareBoard.fromList([['x', 'o', None, None, ],

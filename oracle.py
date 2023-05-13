@@ -1,16 +1,17 @@
+
 from enum import Enum, auto
 from copy import deepcopy
-
+from syslog import LOG_USER
 from settings import BOARD_LENGTH
 from square_board import SquareBoard
 
 
 class ColumnClassification(Enum):
-    FULL = -1   # imposible
-    LOSE = 1    # derrota inminente
-    BAD = 5    # Muy indeseable
-    MAYBE = 10   # indeseable
-    WIN = 100   # La mejor opción: gano por narices
+    FULL = -1        # imposible
+    LOSE =  1        # imminent defeat
+    BAD = 5         # Muy indeseable
+    MAYBE = 10      # indeseable
+    WIN = 100       # La mejor opción: gano por narices
 
 
 class ColumnRecommendation():
@@ -19,15 +20,18 @@ class ColumnRecommendation():
         self.classification = classification
 
     def __eq__(self, other):
-        #  si son de clases distintas, pues distintos
+        # si son de clases distintas, pues distintos
         if not isinstance(other, self.__class__):
             return False
-        #  sólo importa la clasificación
+        # sólo importa la clasificación
         else:
             return self.classification == other.classification
 
     def __hash__(self) -> int:
         return hash((self.index, self.classification))
+
+    def __repr__(self):
+        return f'{self.__class__}:{self.classification}'
 
 
 class BaseOracle():
@@ -56,17 +60,17 @@ class BaseOracle():
         """
         Detecta que todas las clasificaciones sean BAD o FULL
         """
-        # Obetener las clasificaciones
-        ColumnRecommendation = self.get_recommendation(board, player)
+        # Obtener las clasificaciones
+        columnRecommendations = self.get_recommendation(board, player)
 
         # Comprobamos que todas sean del tipo correcto
         result = True
-        for rec in ColumnRecommendation:
+        for rec in columnRecommendations:
             if (rec.classification == ColumnClassification.WIN) or (rec.classification == ColumnClassification.MAYBE):
                 result = False
                 break
         return result
-    
+
     # métodos que han de ser sobre-escritos por mis subclases
     def update_to_bad(self, move):
         pass
@@ -75,27 +79,27 @@ class BaseOracle():
         pass
 
 
-
 class SmartOracle(BaseOracle):
-
     def _get_column_recommendation(self, board, index, player):
         """
         Afina la clasificación de super e intenta encontrar columnas WIN
         """
-        recommentation = super()._get_column_recommendation(board, index, player)
-        if recommentation.classification == ColumnClassification.MAYBE:
+        recommendation = super()._get_column_recommendation(board, index, player)
+        if recommendation.classification == ColumnClassification.MAYBE:
             # se puede mejorar
             if self._is_winning_move(board, index, player):
-                recommentation.classification = ColumnClassification.WIN
+                recommendation.classification = ColumnClassification.WIN
             elif self._is_losing_move(board, index, player):
-                recommentation.classification = ColumnClassification.LOSE
-        return recommentation
+                recommendation.classification = ColumnClassification.LOSE
+
+        return recommendation
 
     def _is_losing_move(self, board, index, player):
         """
-        Si player juega en index, ¿genera una jugada vencedora par el oponente en alguna de las demás columans
+        Si player juega en index, ¿genera una jugada vencedora para el 
+        oponente el alguna de las demás columnas?
         """
-        tmp = self._play_on_tmp_board(board, index, player)
+        tmp = self._play_on_tmp_board(board,index,player)
 
         will_lose = False
         for i in range(0, BOARD_LENGTH):
@@ -108,11 +112,11 @@ class SmartOracle(BaseOracle):
         """
         Determina si al jugar en una posición, nos llevaría a ganar de inmediato
         """
-        # Hago una copia del tabler
-        # Juego en ella
+        # hago una copia del tablero
+        # juego en ella
         tmp = self._play_on_tmp_board(board, index, player)
 
-        # Determino si hay una victoria para player
+        # determino si hay una victoria para player o no
         return tmp.is_victory(player.char)
 
     def _play_on_tmp_board(self, board, index, player):
@@ -146,7 +150,7 @@ class MemoizingOracle(SmartOracle):
         # Creamos la clave
         key = self._make_key(board.as_code(), player)
 
-        # Miramos en el caché: si no está, calculo y guardo en la nube
+        # Miramos en el caché: si no está, calculo y guardo en cache
         if key not in self._past_recommendations:
             self._past_recommendations[key] = super(
             ).get_recommendation(board, player)
