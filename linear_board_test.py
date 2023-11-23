@@ -2,8 +2,10 @@ import pytest
 from linear_board import *
 from settings import BOARD_LENGTH, VICTORY_STRIKE
 
+# Pruebas para el tablero de Conecta 4
 
 def test_empty_board():
+    # Verifica que el tablero esté vacío al inicio
     empty = LinearBoard()
     assert empty != None
     assert empty.is_full() == False
@@ -11,6 +13,7 @@ def test_empty_board():
 
 
 def test_add():
+    # Verifica si el tablero se llena correctamente
     b = LinearBoard()
     for i in range(BOARD_LENGTH):
         b.add('x')
@@ -18,6 +21,7 @@ def test_add():
 
 
 def test_victory():
+    # Verifica la detección correcta de la victoria
     b = LinearBoard()
     for i in range(VICTORY_STRIKE):
         b.add('x')
@@ -27,6 +31,7 @@ def test_victory():
 
 
 def test_tie():
+    # Verifica si el juego termina en empate
     b = LinearBoard()
 
     b.add('o')
@@ -38,6 +43,7 @@ def test_tie():
 
 
 def test_add_to_full():
+    # Verifica que no se pueda agregar a un tablero lleno
     full = LinearBoard()
     for i in range(BOARD_LENGTH):
         full.add('x')

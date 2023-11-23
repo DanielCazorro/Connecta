@@ -1,40 +1,43 @@
 from list_utils import find_streak
 from settings import BOARD_LENGTH, VICTORY_STRIKE
 
-
 class LinearBoard():
     """
     Clase que representa un tablero de una sola columna
-    x un jugador
-    o otro jugador
-    None un espacio vacío
+    x: un jugador
+    o: otro jugador
+    None: un espacio vacío
     """
 
     def __init__(self):
         """
-        Una lista de None
+        Inicializa el tablero con una lista de longitud BOARD_LENGTH, inicialmente vacía
         """
-        self._colum = [None for i in range(BOARD_LENGTH)]
+        self._column = [None for i in range(BOARD_LENGTH)]
 
     def add(self, char):
         """
-        Juega en la primera posición disponible
+        Agrega una ficha en la primera posición disponible
         """
-        # siempre y cuando no esté lleno...
         if not self.is_full():
-            # buscamos la priemra posición libre (None)
-            i = self._colum.index(None)
-            # lo sustituimos por un char
-            self._colum[i] = char
+            # Encuentra la primera posición libre y coloca la ficha
+            i = self._column.index(None)
+            self._column[i] = char
 
     def is_full(self):
-        return self._colum[-1] != None
+        """
+        Verifica si el tablero está lleno
+        """
+        return self._column[-1] != None
 
     def is_victory(self, char):
-        return find_streak(self._colum, char, VICTORY_STRIKE)
+        """
+        Verifica si hay una victoria para el jugador 'char' en el tablero
+        """
+        return find_streak(self._column, char, VICTORY_STRIKE)
 
     def is_tie(self, char1, char2):
         """
-        no hay victoria ni de char1 ni de char2
+        Verifica si el juego termina en empate
         """
-        return (self.is_victory('x') == False) and (self.is_victory('o') == False)
+        return (self.is_victory(char1) == False) and (self.is_victory(char2) == False)
